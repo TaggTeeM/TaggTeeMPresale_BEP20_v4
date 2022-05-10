@@ -1,0 +1,11 @@
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+contracts/artifacts/
+/contracts/models/artifacts
+/libraries/artifacts
+#/.deps
+*/artifacts/*
+/.deps/npm/@openzeppelin/contracts/token/ERC20/artifacts
