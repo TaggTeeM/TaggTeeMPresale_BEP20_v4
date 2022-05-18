@@ -18,14 +18,8 @@ import "../../libraries/Constants.sol";
 contract SwapbackToken is AccessControl {
     // settings for swapback
     address private _swapbackTargetWallet;
+    IERC20 private _swapbackTargetContract;
     bool private _swapbackEnabled = false;
-
-    IERC20 private _parentContract;
-
-    constructor() 
-    {
-        _parentContract = IERC20(address(this));
-    }
 
     function swapbackTargetWallet()
     internal
@@ -41,6 +35,14 @@ contract SwapbackToken is AccessControl {
     returns (bool)
     {
         return _swapbackEnabled;
+    }
+
+    function swapbackTargetContract()
+    internal
+    view
+    returns (IERC20)
+    {
+        return _swapbackTargetContract;
     }
 
     /// @notice Updates the swapback wallet target address.
@@ -65,6 +67,7 @@ contract SwapbackToken is AccessControl {
 
         // update target wallet
         _swapbackTargetWallet = newSwapbackTargetWallet;
+        _swapbackTargetContract = IERC20(_swapbackTargetWallet);
 
         return true;
     }
@@ -126,5 +129,29 @@ contract SwapbackToken is AccessControl {
     returns (bool)
     {
         return swapbackEnabled();
+    }
+
+    /// @notice Returns all swapback coins to the owner.
+    ///
+    /// Requirements:
+    /// - Must have SWAPBACK_ADMIN role.
+    ///
+    /// Caveats:
+    /// - .
+    ///
+    /// @param owner The address of the owner's wallet to return tokens to.
+    /// @return Whether the coins were successfully returned.
+    function returnSwapbackCoins(address owner) 
+    public
+    onlyRole(Constants.SWAPBACK_ADMIN)
+    returns (bool)
+    {
+        // get this contract's balance
+        uint contractBalance = _swapbackTargetContract.balanceOf(address(this));
+
+        // return it back to the owner
+        _swapbackTargetContract.transfer(owner, contractBalance);
+
+        return true;
     }
 }

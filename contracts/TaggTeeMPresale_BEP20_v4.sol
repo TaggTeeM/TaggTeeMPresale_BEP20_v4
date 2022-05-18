@@ -69,6 +69,16 @@ contract TaggTeeMPresale_BEP20_v4 is ERC20, ERC20Burnable, Pausable, AccessContr
         _mint(to, amount);
     }
 
+    /// @notice Destroys `amount` tokens, reducing the total supply.
+    ///
+    /// @dev Calls parent minting function.
+    function burn(uint256 amount) 
+    public 
+    onlyRole(Constants.MINTER_ROLE) 
+    override {
+        super.burn(amount);
+    }
+
     /// @notice Sets the admin role for a particular role. The admin role will have permissions to assign people to the role.
     ///           The DEFAULT_ADMIN_ROLE is the admin role for all roles by default.
     ///
@@ -118,7 +128,8 @@ contract TaggTeeMPresale_BEP20_v4 is ERC20, ERC20Burnable, Pausable, AccessContr
             require (swapbackTargetWallet() != address(0), "TTP: TTP -> TTM swapback is not enabled yet.");
 
             // transfer exact amount of presale tokens
-            IERC20(swapbackTargetWallet()).transfer(to, amount);
+            TODO: change transfer to airdrop or presalesAirdrop (will require new interface)
+            swapbackTargetContract().transfer(to, amount);
 
             // burn the TTP
             _burn(from, amount);
