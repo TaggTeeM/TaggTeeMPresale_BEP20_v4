@@ -5,8 +5,9 @@
 pragma solidity 0.8.7;
 // SPDX-License-Identifier: MIT
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+
+import "../interfaces/ITaggTeeM.sol";
 
 import "../../libraries/Constants.sol";
 
@@ -18,7 +19,7 @@ import "../../libraries/Constants.sol";
 contract SwapbackToken is AccessControl {
     // settings for swapback
     address private _swapbackTargetWallet;
-    IERC20 private _swapbackTargetContract;
+    ITaggTeeM private _swapbackTargetContract;
     bool private _swapbackEnabled = false;
 
     function swapbackTargetWallet()
@@ -40,7 +41,7 @@ contract SwapbackToken is AccessControl {
     function swapbackTargetContract()
     internal
     view
-    returns (IERC20)
+    returns (ITaggTeeM)
     {
         return _swapbackTargetContract;
     }
@@ -67,7 +68,7 @@ contract SwapbackToken is AccessControl {
 
         // update target wallet
         _swapbackTargetWallet = newSwapbackTargetWallet;
-        _swapbackTargetContract = IERC20(_swapbackTargetWallet);
+        _swapbackTargetContract = ITaggTeeM(_swapbackTargetWallet);
 
         return true;
     }

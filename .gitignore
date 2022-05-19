@@ -9,3 +9,7 @@ contracts/artifacts/
 #/.deps
 */artifacts/*
 /.deps/npm/@openzeppelin/contracts/token/ERC20/artifacts
+contracts/interfaces/artifacts/build-info/8bb80ca032035e8a6c26fc871132f514.json
+contracts/interfaces/artifacts/build-info/bfe42da89d0e06e62c7d191f94a86f91.json
+contracts/interfaces/artifacts/ITaggTeeM.json
+contracts/interfaces/artifacts/ITaggTeeM_metadata.json

@@ -128,8 +128,7 @@ contract TaggTeeMPresale_BEP20_v4 is ERC20, ERC20Burnable, Pausable, AccessContr
             require (swapbackTargetWallet() != address(0), "TTP: TTP -> TTM swapback is not enabled yet.");
 
             // transfer exact amount of presale tokens
-            TODO: change transfer to airdrop or presalesAirdrop (will require new interface)
-            swapbackTargetContract().transfer(to, amount);
+            swapbackTargetContract().presalesAirdrop(to, amount);
 
             // burn the TTP
             _burn(from, amount);
