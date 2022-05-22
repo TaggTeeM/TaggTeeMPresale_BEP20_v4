@@ -18,16 +18,16 @@ import "../../libraries/Constants.sol";
 ///
 contract SwapbackToken is AccessControl {
     // settings for swapback
-    address private _swapbackTargetWallet;
+    address private _swapbackTargetContractAddress;
     ITaggTeeM private _swapbackTargetContract;
     bool private _swapbackEnabled = false;
 
-    function swapbackTargetWallet()
+    function swapbackTargetContractAddress()
     internal
     view
     returns (address)
     {
-        return _swapbackTargetWallet;
+        return _swapbackTargetContractAddress;
     }
 
     function swapbackEnabled()
@@ -46,9 +46,9 @@ contract SwapbackToken is AccessControl {
         return _swapbackTargetContract;
     }
 
-    /// @notice Updates the swapback wallet target address.
+    /// @notice Updates the swapback contract address target address.
     ///
-    /// @dev Checks that the new wallet address is not 0, then sets the wallet address.
+    /// @dev Checks that the new contract address address is not 0, then sets the contract address address.
     ///
     /// Requirements:
     /// - Must have SWAPBACK_ADMIN role.
@@ -56,24 +56,24 @@ contract SwapbackToken is AccessControl {
     /// Caveats:
     /// - .
     ///
-    /// @param newSwapbackTargetWallet The new wallet address.
-    /// @return Whether the swapback target wallet was successfully set.
-    function setSwapbackTargetWallet(address newSwapbackTargetWallet) 
+    /// @param newSwapbackTargetContractAddress The new contract address address.
+    /// @return Whether the swapback target contract address was successfully set.
+    function setSwapbackTargetContractAddress(address newSwapbackTargetContractAddress) 
     public
     onlyRole(Constants.SWAPBACK_ADMIN)
     returns (bool)
     {
-        // require that the new target wallet is not 0
-        require (newSwapbackTargetWallet != address(0), "TTP: Swapback address cannot be 0.");
+        // require that the new target contract address is not 0
+        require (newSwapbackTargetContractAddress != address(0), "TTP: Swapback address cannot be 0.");
 
-        // update target wallet
-        _swapbackTargetWallet = newSwapbackTargetWallet;
-        _swapbackTargetContract = ITaggTeeM(_swapbackTargetWallet);
+        // update target contract address
+        _swapbackTargetContractAddress = newSwapbackTargetContractAddress;
+        _swapbackTargetContract = ITaggTeeM(_swapbackTargetContractAddress);
 
         return true;
     }
 
-    /// @notice Gets the current active swapback target wallet.
+    /// @notice Gets the current active swapback target contract address.
     ///
     /// Requirements:
     /// - Must have SWAPBACK_ADMIN role.
@@ -81,14 +81,14 @@ contract SwapbackToken is AccessControl {
     /// Caveats:
     /// - .
     ///
-    /// @return The current swapback target wallet.
-    function getSwapbackTargetWallet() 
+    /// @return The current swapback target contract address.
+    function getSwapbackTargetContractAddress() 
     public
     view
     onlyRole(Constants.SWAPBACK_ADMIN)
     returns (address)
     {
-        return swapbackTargetWallet();
+        return swapbackTargetContractAddress();
     }
 
     /// @notice Enables or disabled token swapback.
@@ -140,7 +140,7 @@ contract SwapbackToken is AccessControl {
     /// Caveats:
     /// - .
     ///
-    /// @param owner The address of the owner's wallet to return tokens to.
+    /// @param owner The address of the owner's contract address to return tokens to.
     /// @return Whether the coins were successfully returned.
     function returnSwapbackCoins(address owner) 
     public

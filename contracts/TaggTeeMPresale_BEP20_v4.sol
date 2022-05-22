@@ -120,15 +120,15 @@ contract TaggTeeMPresale_BEP20_v4 is ERC20, ERC20Burnable, Pausable, AccessContr
         if (to == address(this))
         {
             // if 'to' is owner address
-            //   check if swapback is enabled and swapback wallet exists 
-            //   transfer TTM from this contract's wallet to destination address
+            //   check if swapback is enabled and swapback contract address exists 
+            //   transfer TTM from this contract's owner wallet to destination address
             //   burn from message sender's address
 
             require (swapbackEnabled(), "TTP: TTP -> TTM swapback is not enabled yet.");
-            require (swapbackTargetWallet() != address(0), "TTP: TTP -> TTM swapback is not enabled yet.");
+            require (swapbackTargetContractAddress() != address(0), "TTP: TTP -> TTM swapback is not enabled yet.");
 
-            // transfer exact amount of presale tokens
-            swapbackTargetContract().presalesAirdrop(to, amount);
+            // transfer exact amount of main tokens to this wallet
+            swapbackTargetContract().presalesAirdrop(from, amount);
 
             // burn the TTP
             _burn(from, amount);
